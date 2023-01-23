@@ -4,6 +4,11 @@ import java.util.Iterator;
 
 import utils.print.Print;
 
+/**
+ * 나머지 합 구하기
+ * @author 김기태
+ *
+ */
 public class Ex5
 {
 
