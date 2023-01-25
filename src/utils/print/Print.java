@@ -1,5 +1,8 @@
 package utils.print;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Print
 {
 	/**
@@ -17,5 +20,12 @@ public class Print
 		System.out.print(arr[arr.length-1]);
 		System.out.println("]");
 		
+	}
+
+	public static void printList(List<Integer> list) {
+		for (Integer item : list) {
+			System.out.print(item + " ");
+		}
+		System.out.println();
 	}
 }
