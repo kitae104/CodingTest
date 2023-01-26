@@ -3,14 +3,20 @@ package array_list;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 import utils.print.Print;
 
+/**
+ * Day-8 좋은 수 구하기
+ * @author 김기태
+ *
+ */
 public class Ex8 {
 
 	public static void main(String[] args) {
 		
-		Scanner sc = new Scanner(System.in);
+		Scanner sc = new Scanner(System.in);				
 		
 		int n = 10;		// 수의 개수 
 		
@@ -19,6 +25,8 @@ public class Ex8 {
 		for (int i = 0; i < n; i++) {
 			list.add(sc.nextInt());
 		}
+		
+		Print.printList(list);
 		
 		Collections.sort(list);		// 정렬하기 
 		
@@ -30,7 +38,7 @@ public class Ex8 {
 			int find = list.get(k); 	// 확인하고자 하는 수 
 			int i = 0; 
 			int j = list.size()-1;
-			
+						
 			while(i < j) {				
 				if(list.get(i) + list.get(j) == find) {	// 각각을 더해서 원하는 수를 찾은 경우
 					if(i != find && j!= find) {			// 서로 다른 경우라면 
