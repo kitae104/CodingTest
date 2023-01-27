@@ -3,7 +3,11 @@ package array_list;
 import java.util.Collections;
 import java.util.Scanner;
 import java.util.Vector;
-
+/**
+ * Day-7 주몽의 명령 
+ * @author kitae
+ *
+ */
 public class Ex7
 {
 	public static void main(String[] args)
