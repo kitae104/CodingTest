@@ -8,7 +8,7 @@ import java.util.Vector;
  * @author kitae
  *
  */
-public class Ex7
+public class Ex07
 {
 	public static void main(String[] args)
 	{
