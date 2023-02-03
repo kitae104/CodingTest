@@ -2,6 +2,8 @@ package stream;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class TestStream
@@ -43,5 +45,27 @@ public class TestStream
 				.anyMatch(people -> people.getAge() > 19);
 		System.out.println("한 명이라도 나이가 19 보다 많은가? " + anyMatch);
 		
+		Optional<People> maxPeople = People.getPeopleList().stream()
+				.max(Comparator.comparing(People::getAge));
+		if(maxPeople.isPresent()) {
+			System.out.println("나이가 제일 많은 사람은? ");
+			System.out.println(maxPeople.get());
+		}
+		
+		Map<Integer, List<People>> groupByGender = People.getPeopleList().stream()
+				.collect(Collectors.groupingBy(People::getGender));
+		System.out.println("남성/여성 목록 : ");
+		groupByGender.forEach((gender, peopleList) -> {
+			System.out.println(gender);
+			peopleList.forEach(System.out::println);
+		});
+		
+		Optional<String> oldestWoman = People.getPeopleList().stream()
+				.filter(people -> people.getGender() == 2)
+				.max(Comparator.comparing(People::getAge))
+				.map(People::getName);
+		
+		System.out.println("여성 중에 나이가 제일 많은 사람 : ");
+		oldestWoman.ifPresent(System.out::println);
 	}
 }
