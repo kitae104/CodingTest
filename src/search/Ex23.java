@@ -1,4 +1,4 @@
-package sort;
+package search;
 
 import java.io.File;
 import java.io.IOException;
