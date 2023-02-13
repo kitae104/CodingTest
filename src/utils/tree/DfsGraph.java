@@ -10,9 +10,9 @@ import java.util.Stack;
 public class DfsGraph
 {
 	private int num;    				// 정점의 개수
-    private int[][] dfsGraph;    	// 그래프
+    protected int[][] dfsGraph;    	// 그래프
     private boolean[] visitArr;    	// 정점 방문 여부 확인 배열
-    
+
     /**
      *  생성자 - 그래프 초기화
      * @param num
