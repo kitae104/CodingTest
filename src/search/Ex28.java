@@ -26,7 +26,6 @@ public class Ex28 {
 		String line = null;
 		String[] input = null;
 		
-		 
 		line = sc.nextLine();
 		input = line.split(" ");
 		

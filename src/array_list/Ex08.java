@@ -3,7 +3,6 @@ package array_list;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-import java.util.StringTokenizer;
 
 import utils.print.Print;
 
