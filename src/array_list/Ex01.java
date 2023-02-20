@@ -13,6 +13,7 @@ public class Ex01 {
 		Scanner sc = new Scanner(System.in);
 				
 		String sNum = sc.next();
+		sc.close();
 		
 		char[] cArr = sNum.toCharArray();
 		
