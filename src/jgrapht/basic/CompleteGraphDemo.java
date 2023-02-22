@@ -1,8 +1,14 @@
 package jgrapht.basic;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 import org.jgrapht.Graph;
@@ -10,6 +16,9 @@ import org.jgrapht.generate.CompleteGraphGenerator;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
+import org.jgrapht.nio.Attribute;
+import org.jgrapht.nio.DefaultAttribute;
+import org.jgrapht.nio.dot.DOTExporter;
 import org.jgrapht.traverse.DepthFirstIterator;
 import org.jgrapht.util.SupplierUtil;
 
@@ -17,7 +26,7 @@ public class CompleteGraphDemo {
 
 	private static final int SIZE = 10;
 	
-	public static void main(String[] args) throws URISyntaxException {
+	public static void main(String[] args) throws URISyntaxException, IOException {
 		Supplier<String> vSupplier = new Supplier<String>() {
 			private int id = 0; 
 			@Override
@@ -55,6 +64,30 @@ public class CompleteGraphDemo {
 			URI uri = iterator.next();
 			System.out.println(uri);
 		}
+		
+		// GraphViz 출력 
+		System.out.println("== GraphViz 출력 ==");
+        DOTExporter<URI, DefaultEdge> exporter = new DOTExporter<>(v -> v.getHost().replace('.', '_'));
+        exporter.setVertexAttributeProvider((v) -> {
+        	Map<String, Attribute> map = new LinkedHashMap<>();
+        	map.put("label", DefaultAttribute.createAttribute(v.toString()));
+        	return map;
+        });
+                
+        
+        // DOT 파일 생성 
+        Writer writer = new FileWriter(System.getProperty("user.dir")+ "/graphs/graph.dot");
+        exporter.exportGraph(hrefGraph, writer);
+        
+        // 문자열 형태로 출력 
+        Writer w = new StringWriter();
+        exporter.exportGraph(hrefGraph, w);
+        System.out.println(w.toString());
+        
+        
+        // 파일을 불러와서 이미지로 변경하기 
+        
+        
 	}
 
 	private static Graph<URI, DefaultEdge> createHrefGraph() throws URISyntaxException

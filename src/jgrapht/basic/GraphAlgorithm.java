@@ -1,5 +1,6 @@
 package jgrapht.basic;
 
+import java.net.URI;
 import java.util.List;
 
 import org.jgrapht.Graph;
@@ -9,6 +10,7 @@ import org.jgrapht.alg.interfaces.StrongConnectivityAlgorithm;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.nio.dot.DOTExporter;
 
 public class GraphAlgorithm
 {
@@ -43,7 +45,7 @@ public class GraphAlgorithm
         		new KosarajuStrongConnectivityInspector<>(directedGraph);
         
         List<Graph<String, DefaultEdge>> stronglyConnectedSubgraphs = scAlg.getStronglyConnectedComponents();
-        System.out.println(stronglyConnectedSubgraphs);
+        System.out.println(stronglyConnectedSubgraphs);        
         
         stronglyConnectedSubgraphs.stream().forEach(System.out::println);
         
@@ -56,6 +58,10 @@ public class GraphAlgorithm
         System.out.println("최단 경로2 : ");
         SingleSourcePaths<String, DefaultEdge> cPaths = dijkstraAlg.getPaths("a");
         System.out.println(cPaths.getPath("d") + "\n");
+        
+        
+        
+        
 	}
 
 }
