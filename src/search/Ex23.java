@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Day-23 연결 요소의 개수
+ * Day-23 연결 요소의 개수 - 리스트 이용 
  * @author kitae
  *
  */
@@ -47,6 +47,10 @@ public class Ex23
 		}
 		
 		int count = 0;
+		
+		// 내용 확인용
+		ArrayList<ArrayList<Integer>> graph2 = graph;
+		
 		for (int i = 1; i <= N; i++) 
 		{
 			if(dfs(i)){				
