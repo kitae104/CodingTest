@@ -4,7 +4,7 @@ import java.util.Stack;
 
 /**
  * 기존 DfsGraph를 상속 받아 관계를 표현하는 그래프 작성 
- * @author UserK
+ * @author kitae
  *
  */
 public class DfsGraphFriends extends DfsGraph

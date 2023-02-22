@@ -40,7 +40,7 @@ public class DFS_Test
         dfsGraph.dfs(1);
         System.out.println();
                 
-        dfsGraph.clearVisitArr();					// 방문 정보 제거 
+        dfsGraph.clearVisitArr();		// 방문 정보 제거 
         System.out.print("정점 1부터 탐색(스택 사용) : ");
         dfsGraph.dfsStack(1);
 	}
