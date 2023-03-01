@@ -32,8 +32,7 @@ public class CompleteGraphDemo {
 			@Override
 			public String get() {
 				return "v" + id++;
-			}
-			
+			}			
 		};
 
 		// 그래프 생성 
