@@ -13,7 +13,7 @@ public class Ex33 {
 
 	public static void main(String[] args) {
 		Integer N = 5; 					// 카드 묶음 갯수
-		Integer[] arr = {10, 30, 20, 15, 40};	// 카드 묶음 배열
+		Integer[] arr = {10, 20, 40};	// 카드 묶음 배열
 		Integer[] arr2 = new Integer[N];
 		
 		PriorityQueue<Integer> pq = new PriorityQueue<>(Arrays.asList(arr));
