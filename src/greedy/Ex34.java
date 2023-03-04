@@ -3,7 +3,14 @@ package greedy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+/**
+ * Day-34 수 묶기
+ * - 양수를 묶을 경우 
+ * - 음수를 묶을 경우 
+ * - 0이나 1이 포함된 경우 
+ * @author kitae
+ *
+ */
 public class Ex34 {
 
 	public static void main(String[] args) {
