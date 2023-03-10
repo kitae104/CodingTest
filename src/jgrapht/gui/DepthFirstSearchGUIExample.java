@@ -1,18 +1,14 @@
 package jgrapht.gui;
 
-import javax.swing.*;
-import com.mxgraph.swing.mxGraphComponent;
-import com.mxgraph.view.mxGraph;
+import javax.swing.JFrame;
+
 import org.jgrapht.Graph;
-import org.jgrapht.Graphs;
-import org.jgrapht.alg.interfaces.DepthFirstSearchAlgorithm;
-import org.jgrapht.alg.interfaces.VertexColoringAlgorithm.Color;
-import org.jgrapht.alg.interfaces.VertexColoringAlgorithm;
-import org.jgrapht.alg.interfaces.VertexTraversalListener;
-import org.jgrapht.alg.interfaces.VertexTraversalListener.Colors;
-import org.jgrapht.alg.interfaces.VertexTraversalListener.VisitingState;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
+import org.jgrapht.traverse.DepthFirstIterator;
+
+import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.view.mxGraph;
 
 public class DepthFirstSearchGUIExample extends JFrame {
 
@@ -71,12 +67,14 @@ public class DepthFirstSearchGUIExample extends JFrame {
         for (DefaultEdge edge : graph.edgeSet()) {
             String sourceVertex = graph.getEdgeSource(edge);
             String targetVertex = graph.getEdgeTarget(edge);
-            mxGraph.insertEdge(parent, null, "", mxGraph.getVertex(sourceVertex), mxGraph.getVertex(targetVertex));
+            mxGraph.insertEdge(parent, null, "", sourceVertex , targetVertex);
         }
     }
 
     private void performDepthFirstSearch(Graph<String, DefaultEdge> graph) {
-        DepthFirstSearchAlgorithm<String, DefaultEdge> dfs = new DepthFirstSearchAlgorithm<>(graph);
+    	/*
+    
+    	DepthFirstIterator<String, DefaultEdge> dfs = new DepthFirstIterator<>(graph);
 
         VertexTraversalListener<String, DefaultEdge> traversalListener = new VertexTraversalListener<String, DefaultEdge>() {
             @Override
@@ -105,8 +103,10 @@ public class DepthFirstSearchGUIExample extends JFrame {
             for (String vertex : coloring.getColoredVertices(Color.WHITE)) {
                 dfs.traverse(vertex);
             }
+            */
         }
 
+    /*
         private void highlightVertex(String vertex, Colors color) {
             mxGraphComponent graphComponent = (mxGraphComponent) getContentPane().getComponent(0);
             mxGraph mxGraph = graphComponent.getGraph();
@@ -114,6 +114,7 @@ public class DepthFirstSearchGUIExample extends JFrame {
             Object cell = mxGraph.getVertex(vertex);
             mxGraph.setCellStyles(mxGraph.STYLE_FILLCOLOR, color.getColor(), new Object[] { cell });
         }
+     */
 
         public static void main(String[] args) {
             new DepthFirstSearchGUIExample();

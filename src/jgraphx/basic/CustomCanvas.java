@@ -40,15 +40,13 @@ public class CustomCanvas extends JFrame
 				
 				if (getModel().isVertex(state.getCell())
 						&& canvas instanceof mxImageCanvas
-						&& ((mxImageCanvas) canvas)
-								.getGraphicsCanvas() instanceof SwingCanvas)
+						&& ((mxImageCanvas) canvas).getGraphicsCanvas() instanceof SwingCanvas)
 				{
-					((SwingCanvas) ((mxImageCanvas) canvas).getGraphicsCanvas())
-							.drawVertex(state, label);
+					((SwingCanvas) ((mxImageCanvas) canvas).getGraphicsCanvas()).drawVertex(state, label);
 				}
+				
 				// Redirection of drawing vertices in SwingCanvas
-				else if (getModel().isVertex(state.getCell())
-						&& canvas instanceof SwingCanvas)
+				else if (getModel().isVertex(state.getCell()) && canvas instanceof SwingCanvas)
 				{
 					((SwingCanvas) canvas).drawVertex(state, label);
 				}
@@ -74,9 +72,9 @@ public class CustomCanvas extends JFrame
 		return graphComponent;
 	}
 
-	public class SwingCanvas extends mxInteractiveCanvas
+	class SwingCanvas extends mxInteractiveCanvas
 	{
-		
+		protected CellRendererPane rendererPane = new CellRendererPane();
 	}
 	
 
