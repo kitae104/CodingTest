@@ -1,10 +1,15 @@
 package jgraphx.basic;
 
+import javax.swing.BorderFactory;
+import javax.swing.CellRendererPane;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.border.BevelBorder;
 
 import com.mxgraph.canvas.mxICanvas;
 import com.mxgraph.canvas.mxImageCanvas;
 import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.swing.handler.mxRubberband;
 import com.mxgraph.swing.view.mxInteractiveCanvas;
 import com.mxgraph.view.mxCellState;
 import com.mxgraph.view.mxGraph;
@@ -54,9 +59,9 @@ public class CustomCanvas extends JFrame
 				{
 					super.drawState(canvas, state, drawLabel);
 				}
-			}
-			}
+			}			
 		};
+		
 		Object parent = graph.getDefaultParent();
 		
 		graph.getModel().beginUpdate();						// 그래프 작성 시작 
@@ -68,13 +73,48 @@ public class CustomCanvas extends JFrame
 			graph.getModel().endUpdate();					// 그래프 작성 종료 
 		}
 		
-		mxGraphComponent graphComponent = new mxGraphComponent(graph);
+		mxGraphComponent graphComponent = new mxGraphComponent(graph)
+		{
+			public mxInteractiveCanvas createCanvas() 
+			{
+				return new SwingCanvas(this);
+			}
+		};
+		
+		getContentPane().add(graphComponent);
+		
+		// 러버밴드 선택 추가
+		new mxRubberband(graphComponent);		
+		
 		return graphComponent;
 	}
 
 	class SwingCanvas extends mxInteractiveCanvas
 	{
 		protected CellRendererPane rendererPane = new CellRendererPane();
+		
+		protected JLabel vertexRenderer = new JLabel();
+		
+		protected mxGraphComponent graphComponent;
+		
+		public SwingCanvas(mxGraphComponent graphComponent)
+		{
+			this.graphComponent = graphComponent;
+			vertexRenderer.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+			vertexRenderer.setHorizontalAlignment(JLabel.CENTER);
+			vertexRenderer.setBackground(graphComponent.getBackground().darker());
+			vertexRenderer.setOpaque(true);
+		}
+		
+		public void drawVertex(mxCellState state, String label)
+		{
+			vertexRenderer.setText(label);
+			
+			rendererPane.paintComponent(g, vertexRenderer, graphComponent,
+					(int) (state.getX() + translate.getX()),
+					(int) (state.getY() + translate.getY()),
+					(int) state.getWidth(), (int) state.getHeight(), true);
+		}
 	}
 	
 
