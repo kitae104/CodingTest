@@ -27,19 +27,22 @@
 			<artifactId>jgrapht-io</artifactId>
 			<version>1.5.1</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.github.tomnelson</groupId>
 			<artifactId>jungrapht-visualization</artifactId>
 			<version>1.3</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.github.tomnelson</groupId>
 			<artifactId>jungrapht-visualization-samples</artifactId>
 			<version>1.3</version>
 		</dependency>
-
+		<dependency>
+			<groupId>guru.nidi</groupId>
+			<artifactId>graphviz-java</artifactId>
+			<version>0.18.1</version>
+		</dependency>
+		
 	</dependencies>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
@@ -49,6 +52,18 @@
 				<version>3.8.1</version>
 				<configuration>
 					<release>17</release>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<taglet>guru.nidi.graphviz.taglet.GraphvizTaglet</taglet>
+					<tagletArtifact>
+						<groupId>guru.nidi</groupId>
+						<artifactId>graphviz-taglet</artifactId>
+						<version>0.18.1</version>
+					</tagletArtifact>
 				</configuration>
 			</plugin>
 		</plugins>
