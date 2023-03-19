@@ -43,6 +43,13 @@
 			<version>0.18.1</version>
 		</dependency>
 		
+		<!-- guava -->
+		<dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>30.1-jre</version>
+  		</dependency>
+  		
 	</dependencies>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
