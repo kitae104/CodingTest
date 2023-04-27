@@ -57,12 +57,20 @@
 			<version>3.3.3</version>
 		</dependency>
 
-    <!-- https://mvnrepository.com/artifact/com.fifesoft/autocomplete -->
-    <dependency>
-        <groupId>com.fifesoft</groupId>
-        <artifactId>autocomplete</artifactId>
-        <version>3.3.1</version>
-    </dependency>	
+		<!-- https://mvnrepository.com/artifact/com.fifesoft/autocomplete -->
+		<dependency>
+			<groupId>com.fifesoft</groupId>
+			<artifactId>autocomplete</artifactId>
+			<version>3.3.1</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.fife/RSTALanguageSupport -->
+		<!--<dependency>
+			<groupId>org.fife</groupId>
+			<artifactId>RSTALanguageSupport</artifactId>
+			<version>2.5.1</version>
+		</dependency>-->
+
 	</dependencies>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
