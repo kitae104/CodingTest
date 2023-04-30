@@ -38,6 +38,8 @@ public class JavaEditor extends JFrame implements ActionListener {
   private JMenuItem itemRun;
   private JButton btnCompile;
   private JButton btnRun;
+  private File out;
+  private JTextArea resultArea;
 
   public JavaEditor(String title) {
     setTitle(title);
@@ -93,6 +95,28 @@ public class JavaEditor extends JFrame implements ActionListener {
     JPanel panCenter = new JPanel();
     panCenter.setLayout(new BorderLayout());
 
+    setVerticalSplitPanel(panCenter);
+
+//    textArea = new RSyntaxTextArea(20, 60);
+//    textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+//    textArea.setCodeFoldingEnabled(true);
+//    RTextScrollPane sp = new RTextScrollPane(textArea);
+//
+//    CompletionProvider provider = createCompletionProvider();
+//    AutoCompletion ac = new AutoCompletion(provider);
+//    ac.install(textArea);
+//
+//    panCenter.add(sp);
+
+    add(panCenter);
+  }
+
+  private void setVerticalSplitPanel(JPanel panCenter) {
+    JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+    splitPane.setDividerLocation(300);
+    splitPane.setDividerSize(5);
+    splitPane.setOneTouchExpandable(true);
+
     textArea = new RSyntaxTextArea(20, 60);
     textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
     textArea.setCodeFoldingEnabled(true);
@@ -102,9 +126,16 @@ public class JavaEditor extends JFrame implements ActionListener {
     AutoCompletion ac = new AutoCompletion(provider);
     ac.install(textArea);
 
-    panCenter.add(sp);
+    splitPane.setTopComponent(sp);
 
-    add(panCenter);
+    resultArea = new JTextArea();
+    resultArea.setLineWrap(true);
+    resultArea.setWrapStyleWord(true);
+    JScrollPane sp2 = new JScrollPane(resultArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+    splitPane.setBottomComponent(sp2);
+
+    panCenter.add(splitPane);
   }
 
   private CompletionProvider createCompletionProvider() {
@@ -224,20 +255,29 @@ public class JavaEditor extends JFrame implements ActionListener {
     } else if (obj == itemSave || obj == btnSave) {
       fileSave();
     } else if(obj == itemFont){
-
+      showFont();
     } else if(obj == itemCompile || obj == btnCompile){
-      JOptionPane.showMessageDialog(this, "컴파일");
+      compile();
     } else if(obj == itemRun || obj == btnRun){
-      JOptionPane.showMessageDialog(this, "실행");
+      run();
     }
   }
+
+  private void showFont() {
+    JFontChooser fc = new JFontChooser();
+    fc.show();
+    Font font = fc.getFont();
+    textArea.setFont(font);
+    resultArea.setFont(font);
+  }
+
 
   private void fileSave() {
     JFileChooser fc = new JFileChooser();
     fc.addChoosableFileFilter(new FileNameExtensionFilter("Java", "java"));
     fc.addChoosableFileFilter(new FileNameExtensionFilter("TEXT", "txt"));
     fc.showSaveDialog(this);
-    File out = fc.getSelectedFile();
+    out = fc.getSelectedFile();
 
     BufferedWriter bw = null;
 
@@ -281,4 +321,69 @@ public class JavaEditor extends JFrame implements ActionListener {
     }
   }
 
+  private void compile() {
+    try {
+      
+      resultArea.setText("");
+
+      // Compile the file using javac
+      Process process = Runtime.getRuntime().exec("javac " + out.getAbsolutePath());
+      int exitCode = process.waitFor();
+
+      // Display the output
+      if (exitCode == 0) {
+        resultArea.append("Compilation Successful");
+      } else {
+        InputStream errorStream = process.getErrorStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(errorStream));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+          sb.append(line);
+          sb.append("\n");
+        }
+        resultArea.append("Compilation failed:\n" + sb.toString());
+      }
+    } catch (Exception ex) {
+      resultArea.append("Exception: " + ex.getMessage());
+    }
+  }
+  
+  private void run()
+  {
+    try {
+
+      resultArea.setText("");
+      String path = out.getAbsolutePath();
+      path = path.substring(0, path.lastIndexOf("."));
+      System.out.println(path);
+
+      // Compile the file using javac
+      String command = "java " + out.getAbsolutePath();
+
+      // 명령어 실행
+      Process process = Runtime.getRuntime().exec(command);
+
+      InputStream inputStream = process.getInputStream();
+      BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+      String line;
+      while ((line = reader.readLine()) != null) {
+        resultArea.append(line + "\n");
+      }
+      // 실행 오류 출력
+      InputStream errorStream = process.getErrorStream();
+      BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorStream));
+      String errorLine;
+      while ((errorLine = errorReader.readLine()) != null) {
+        resultArea.append(errorLine + "\n");
+      }
+      // 프로세스 실행이 완료될 때까지 기다림
+      process.waitFor();
+      // 프로세스의 종료 코드 출력 (0은 정상 종료를 의미)
+      resultArea.append("Exit value: " + process.exitValue() + "\n");
+    } catch (Exception ex) {
+      resultArea.append("Exception: " + ex.getMessage());
+    }
+
+  }
 }
