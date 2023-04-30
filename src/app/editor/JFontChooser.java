@@ -75,7 +75,7 @@ public class JFontChooser extends JDialog {
         okButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
 
-        setTitle("Select Font");
+        setTitle("Font 선택");
         setModal(true);
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -88,20 +88,20 @@ public class JFontChooser extends JDialog {
 
         fontPanel.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setText("Font");
+        jLabel1.setText("폰트(Font)");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         gridBagConstraints.weightx = 2.0;
         fontPanel.add(jLabel1, gridBagConstraints);
 
-        jLabel2.setText("Style");
+        jLabel2.setText("스타일(Style)");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         fontPanel.add(jLabel2, gridBagConstraints);
 
-        jLabel3.setText("Size");
+        jLabel3.setText("크기(Size)");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
@@ -175,7 +175,7 @@ public class JFontChooser extends JDialog {
 
         previewPanel.setLayout(new java.awt.BorderLayout());
 
-        previewPanel.setBorder(new javax.swing.border.TitledBorder(null, "Preview", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12)));
+        previewPanel.setBorder(new javax.swing.border.TitledBorder(null, "미리보기(Preview)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12)));
         lblPreview.setFont(new java.awt.Font("Dialog", 0, 12));
         lblPreview.setText("ABCDEFG abcdefg");
         previewPanel.add(lblPreview, java.awt.BorderLayout.CENTER);
