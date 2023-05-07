@@ -84,6 +84,17 @@ public class DynamicBeat extends JFrame {
 
     private JButton backButton = new JButton(backButtonBasicImage);
 
+    //===============================
+    // 게임 실행 관련 이미지
+    //===============================
+    private Image gameInfoImage = new ImageIcon("images/new/gameInfo.png").getImage();
+    private boolean isGameScreen = false;   // 게임 화면인지 아닌지 판별
+
+    private Image judgementLineImage = new ImageIcon("images/new/judgementLine.png").getImage();
+    private Image noteRouteImage = new ImageIcon("images/new/noteRoute.png").getImage();
+    private Image noteRouteLineImage = new ImageIcon("images/new/noteRouteLine.png").getImage();
+    private Image noteBasicImage = new ImageIcon("images/new/noteBasic.png").getImage();
+
     /**
      * DynamicBeat 클래스 생성자
      */
@@ -375,7 +386,7 @@ public class DynamicBeat extends JFrame {
     public void paint(Graphics g) {
         screenImage = createImage(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT); // screenImage에 화면 크기만큼의 이미지를 생성
         screenGraphic = screenImage.getGraphics(); // screenImage의 그래픽 객체를 얻어옴
-        screenDraw(screenGraphic); // screenGraphic에 우리가 작성한 paint() 메소드를 넣어줌
+        screenDraw((Graphics2D)screenGraphic); // screenGraphic에 우리가 작성한 paint() 메소드를 넣어줌
         g.drawImage(screenImage, 0, 0, null); // screenImage를 (0, 0) 좌표에 그려줌
     }
 
@@ -383,12 +394,68 @@ public class DynamicBeat extends JFrame {
      * 화면에 그려주는 메소드
      * @param g 그래픽 객체
      */
-    public void screenDraw(Graphics g) {
+    public void screenDraw(Graphics2D g) {
         // 단순 이미지를 화면에 보여줄 때 사용
         g.drawImage(background, 0, 0, null); // background를 (0, 0) 좌표에 그려줌
+
+        // 메인 화면일 경우 처리
         if (isMainScreen) {
-            g.drawImage(selectedImage, 340, 170, null); // 시작 버튼을 (840, 450) 좌표에 그려줌
-            g.drawImage(titleImage, 340, 70, null); // 종료 버튼을 (840, 580) 좌표에 그려줌
+            g.drawImage(selectedImage, 340, 170, null); // 선택된 곡의 이미지를 (340, 170) 좌표에 그려줌
+            g.drawImage(titleImage, 340, 70, null);     // 선택된 곡의 타이틀 이미지를 (340, 70) 좌표에 그려줌
+        }
+
+        if(isGameScreen){
+            g.drawImage(noteRouteImage, 228, 30, null); // 노트 라인 이미지를 (240, 30) 좌표에 그려줌
+            g.drawImage(noteRouteImage, 332, 30, null);
+            g.drawImage(noteRouteImage, 436, 30, null);
+            g.drawImage(noteRouteImage, 540, 30, null);
+            g.drawImage(noteRouteImage, 640, 30, null);
+            g.drawImage(noteRouteImage, 744, 30, null);
+            g.drawImage(noteRouteImage, 848, 30, null);
+            g.drawImage(noteRouteImage, 952, 30, null);
+
+            g.drawImage(noteRouteLineImage, 224, 30, null); // 노트 라인 이미지를 (240, 30) 좌표에 그려줌
+            g.drawImage(noteRouteLineImage, 328, 30, null);
+            g.drawImage(noteRouteLineImage, 432, 30, null);
+            g.drawImage(noteRouteLineImage, 536, 30, null);
+            g.drawImage(noteRouteLineImage, 740, 30, null);
+            g.drawImage(noteRouteLineImage, 844, 30, null);
+            g.drawImage(noteRouteLineImage, 948, 30, null);
+            g.drawImage(noteRouteLineImage, 1052, 30, null);
+
+            g.drawImage(gameInfoImage, 0, 660, null); // 게임 정보 이미지를 (0, 660) 좌표에 그려줌
+            g.drawImage(judgementLineImage, 0, 580, null); // 게임 정보 이미지를 (0, 660) 좌표에 그려줌
+
+            g.drawImage(noteBasicImage, 228, 120, null); // 노트 이미지를 (228, 120) 좌표에 그려줌
+            g.drawImage(noteBasicImage, 332, 580, null);
+            g.drawImage(noteBasicImage, 436, 500, null);
+            g.drawImage(noteBasicImage, 540, 340, null);
+            g.drawImage(noteBasicImage, 640, 340, null);
+            g.drawImage(noteBasicImage, 744, 325, null);
+            g.drawImage(noteBasicImage, 848, 305, null);
+            g.drawImage(noteBasicImage, 952, 305, null);
+
+            // 노래 제목 출력
+            g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON); // 글자 깨짐 방지
+            g.setColor(Color.white); // 글자 색상을 흰색으로 설정
+            g.setFont(new Font("D2Coding", Font.BOLD, 30)); // 글자 폰트를 Arial, 굵게, 30 크기로 설정
+            g.drawString("IVE (아이브) - I AM", 20, 702); // (20, 702) 좌표에 "ive - i'm" 글자를 그려줌
+            g.drawString("Easy", 1190, 702);
+            g.setFont(new Font("D2Coding", Font.PLAIN, 26));
+            g.setColor(Color.DARK_GRAY);
+
+            g.drawString("S", 270, 609);
+            g.drawString("D", 374, 609);
+            g.drawString("F", 478, 609);
+            g.drawString("Space Bar", 580, 609);
+            g.drawString("J", 784, 609);
+            g.drawString("K", 889, 609);
+            g.drawString("L", 993, 609);
+            g.setColor(Color.LIGHT_GRAY);
+            g.setFont(new Font("D2Coding", Font.BOLD, 30));
+            g.drawString("000000", 565, 702);
+
+
         }
 
         // 프레임에 add에 의해 추가된 요소를 보여주는 역할
@@ -454,8 +521,9 @@ public class DynamicBeat extends JFrame {
 
         // 게임 실행 화면으로 배경 변경하기
         background = new ImageIcon("images/games/" + trackList.get(nowSelected).getGameImage()).getImage(); // 이미지를 가져옴
-
         backButton.setVisible(true);    // 뒤로가기 버튼 보이게 함
+        isGameScreen = true;            // 게임 화면임을 표시
+
     }
 
     /**
@@ -473,9 +541,9 @@ public class DynamicBeat extends JFrame {
         hardButton.setVisible(true);
 
         // 게임 실행 화면으로 배경 변경하기
-
         backButton.setVisible(false);    // 뒤로가기 버튼 보이게 함
         selectTrack(nowSelected);
+        isGameScreen = false;
     }
 
     /**
