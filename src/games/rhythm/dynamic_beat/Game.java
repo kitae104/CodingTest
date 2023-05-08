@@ -21,7 +21,23 @@ public class Game extends Thread {
     private Image noteRouteKImage = new ImageIcon("images/new/noteRoute.png").getImage();
     private Image noteRouteLImage = new ImageIcon("images/new/noteRoute.png").getImage();
 
+    private String titleName;       // 게임 제목
+    private String difficulty;      // 게임 난이도
+    private String musicTitle;      // 게임 음악 제목
+    private Music gameMusic;        // 게임 음악
 
+    /**
+     * 생성자
+     * @param titleName
+     * @param difficulty
+     */
+    public Game(String titleName, String difficulty, String musicTitle) {
+        this.titleName = titleName;
+        this.difficulty = difficulty;
+        this.musicTitle = musicTitle;
+        gameMusic = new Music(this.musicTitle, false);
+        gameMusic.start();
+    }
 
     public void screenDraw(Graphics2D g){
         g.drawImage(noteRouteSImage, 228, 30, null); // 노트 라인 이미지를 (240, 30) 좌표에 그려줌
@@ -57,9 +73,9 @@ public class Game extends Thread {
         // 노래 제목 출력
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON); // 글자 깨짐 방지
         g.setColor(Color.white); // 글자 색상을 흰색으로 설정
-        g.setFont(new Font("D2Coding", Font.BOLD, 30)); // 글자 폰트를 Arial, 굵게, 30 크기로 설정
-        g.drawString("IVE (아이브) - I AM", 20, 702); // (20, 702) 좌표에 "ive - i'm" 글자를 그려줌
-        g.drawString("Easy", 1190, 702);
+        g.setFont(new Font("D2Coding", Font.BOLD, 30));    // 글자 폰트를 Arial, 굵게, 30 크기로 설정
+        g.drawString(titleName, 20, 702);                       // (20, 702) 좌표에 titleName을 그려줌
+        g.drawString(difficulty, 1190, 702);
         g.setFont(new Font("D2Coding", Font.PLAIN, 26));
         g.setColor(Color.DARK_GRAY);
 
@@ -73,6 +89,8 @@ public class Game extends Thread {
         g.setColor(Color.LIGHT_GRAY);
         g.setFont(new Font("D2Coding", Font.BOLD, 30));
         g.drawString("000000", 565, 702);
+
+
     }
 
     @Override
@@ -132,5 +150,13 @@ public class Game extends Thread {
     }
     public void releaseL() {
         noteRouteLImage = new ImageIcon("images/new/noteRoute.png").getImage();
+    }
+
+    /**
+     * 게임 음악을 종료하고, 스레드를 종료하는 메소드
+     */
+    public void close() {
+        gameMusic.close();      // 게임 음악 종료
+        this.interrupt();       // 스레드 종료
     }
 }
