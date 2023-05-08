@@ -2,6 +2,7 @@ package games.rhythm.dynamic_beat;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Game extends Thread {
 
@@ -11,7 +12,7 @@ public class Game extends Thread {
     private Image gameInfoImage = new ImageIcon("images/new/gameInfo.png").getImage();
     private Image judgementLineImage = new ImageIcon("images/new/judgementLine.png").getImage();
     private Image noteRouteLineImage = new ImageIcon("images/new/noteRouteLine.png").getImage();
-    private Image noteBasicImage = new ImageIcon("images/new/noteBasic.png").getImage();
+
     private Image noteRouteSImage = new ImageIcon("images/new/noteRoute.png").getImage();
     private Image noteRouteDImage = new ImageIcon("images/new/noteRoute.png").getImage();
     private Image noteRouteFImage = new ImageIcon("images/new/noteRoute.png").getImage();
@@ -26,8 +27,11 @@ public class Game extends Thread {
     private String musicTitle;      // 게임 음악 제목
     private Music gameMusic;        // 게임 음악
 
+    ArrayList<Note> noteList = new ArrayList<Note>(); // 노트를 담을 리스트
+
     /**
      * 생성자
+     *
      * @param titleName
      * @param difficulty
      */
@@ -37,9 +41,10 @@ public class Game extends Thread {
         this.musicTitle = musicTitle;
         gameMusic = new Music(this.musicTitle, false);
         gameMusic.start();
+        dropNotes(titleName);
     }
 
-    public void screenDraw(Graphics2D g){
+    public void screenDraw(Graphics2D g) {
         g.drawImage(noteRouteSImage, 228, 30, null); // 노트 라인 이미지를 (240, 30) 좌표에 그려줌
         g.drawImage(noteRouteDImage, 332, 30, null);
         g.drawImage(noteRouteFImage, 436, 30, null);
@@ -58,22 +63,20 @@ public class Game extends Thread {
         g.drawImage(noteRouteLineImage, 948, 30, null);
         g.drawImage(noteRouteLineImage, 1052, 30, null);
 
+        // 판단 선 그리기
         g.drawImage(gameInfoImage, 0, 660, null); // 게임 정보 이미지를 (0, 660) 좌표에 그려줌
         g.drawImage(judgementLineImage, 0, 580, null); // 게임 정보 이미지를 (0, 660) 좌표에 그려줌
 
-        g.drawImage(noteBasicImage, 228, 120, null); // 노트 이미지를 (228, 120) 좌표에 그려줌
-        g.drawImage(noteBasicImage, 332, 580, null);
-        g.drawImage(noteBasicImage, 436, 500, null);
-        g.drawImage(noteBasicImage, 540, 340, null);
-        g.drawImage(noteBasicImage, 640, 340, null);
-        g.drawImage(noteBasicImage, 744, 325, null);
-        g.drawImage(noteBasicImage, 848, 305, null);
-        g.drawImage(noteBasicImage, 952, 305, null);
+        // 노트는 판단선 위로 올라오므로 판단선을 먼저 그려줘야 함
+        for (int i = 0; i < noteList.size(); i++) {
+            Note note = noteList.get(i);
+            note.screenDraw(g);
+        }
 
         // 노래 제목 출력
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON); // 글자 깨짐 방지
         g.setColor(Color.white); // 글자 색상을 흰색으로 설정
-        g.setFont(new Font("D2Coding", Font.BOLD, 30));    // 글자 폰트를 Arial, 굵게, 30 크기로 설정
+        g.setFont(new Font("D2Coding", Font.BOLD, 30));  // 글자 폰트를 Arial, 굵게, 30 크기로 설정
         g.drawString(titleName, 20, 702);                       // (20, 702) 좌표에 titleName을 그려줌
         g.drawString(difficulty, 1190, 702);
         g.setFont(new Font("D2Coding", Font.PLAIN, 26));
@@ -94,7 +97,7 @@ public class Game extends Thread {
     }
 
     @Override
-    public void run(){
+    public void run() {
 
     }
 
@@ -111,43 +114,54 @@ public class Game extends Thread {
         noteRouteDImage = new ImageIcon("images/new/noteRoutePressed.png").getImage();
         new Music("drum/drumSmall1.mp3", false).start();
     }
+
     public void releaseD() {
         noteRouteDImage = new ImageIcon("images/new/noteRoute.png").getImage();
     }
+
     public void pressF() {
         noteRouteFImage = new ImageIcon("images/new/noteRoutePressed.png").getImage();
         new Music("drum/drumSmall1.mp3", false).start();
     }
+
     public void releaseF() {
         noteRouteFImage = new ImageIcon("images/new/noteRoute.png").getImage();
     }
+
     public void pressSpace() {
         noteRouteSpace1Image = new ImageIcon("images/new/noteRoutePressed.png").getImage();
         noteRouteSpace2Image = new ImageIcon("images/new/noteRoutePressed.png").getImage();
         new Music("drum/drumBig1.mp3", false).start();
     }
+
     public void releaseSpace() {
         noteRouteSpace1Image = new ImageIcon("images/new/noteRoute.png").getImage();
         noteRouteSpace2Image = new ImageIcon("images/new/noteRoute.png").getImage();
     }
+
     public void pressJ() {
         noteRouteJImage = new ImageIcon("images/new/noteRoutePressed.png").getImage();
         new Music("drum/drumSmall1.mp3", false).start();
     }
+
     public void releaseJ() {
         noteRouteJImage = new ImageIcon("images/new/noteRoute.png").getImage();
     }
+
     public void pressK() {
         noteRouteKImage = new ImageIcon("images/new/noteRoutePressed.png").getImage();
         new Music("drum/drumSmall1.mp3", false).start();
     }
+
     public void releaseK() {
         noteRouteKImage = new ImageIcon("images/new/noteRoute.png").getImage();
     }
+
     public void pressL() {
         noteRouteLImage = new ImageIcon("images/new/noteRoutePressed.png").getImage();
         new Music("drum/drumSmall1.mp3", false).start();
     }
+
     public void releaseL() {
         noteRouteLImage = new ImageIcon("images/new/noteRoute.png").getImage();
     }
@@ -158,5 +172,11 @@ public class Game extends Thread {
     public void close() {
         gameMusic.close();      // 게임 음악 종료
         this.interrupt();       // 스레드 종료
+    }
+
+    public void dropNotes(String titleName) {
+        Note note = new Note(228, "short");
+        note.start();
+        noteList.add(note);
     }
 }
