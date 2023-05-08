@@ -85,7 +85,7 @@ public class DynamicBeat extends JFrame {
 
     private JButton backButton = new JButton(backButtonBasicImage);
 
-    public static Game game = new Game();   // 게임 객체 생성 (static으로 선언하여 다른 클래스에서도 사용 가능하도록 함)
+    public static Game game;   // 게임 객체 생성 (static으로 선언하여 다른 클래스에서도 사용 가능하도록 함)
 
     /**
      * DynamicBeat 클래스 생성자
@@ -115,9 +115,9 @@ public class DynamicBeat extends JFrame {
         //=======================================================================================
         // 곡 목록 설정
         //=======================================================================================
-        trackList.add(new Track("ive_title.png", "ive_select.png", "ive_main.png", "ive_cut.mp3", "ive.mp3"));
-        trackList.add(new Track("newjeans_title.png", "newjeans_select.png", "newjeans_main.png", "newjeans_cut.mp3", "newjeans.mp3"));
-        trackList.add(new Track("bts_title.png", "bts_select.png", "bts_main.png", "bts_cut.mp3", "bts.mp3"));
+        trackList.add(new Track("ive_title.png", "ive_select.png", "ive_main.png", "ive_cut.mp3", "ive.mp3", "IAM - IVE"));
+        trackList.add(new Track("newjeans_title.png", "newjeans_select.png", "newjeans_main.png", "newjeans_cut.mp3", "newjeans.mp3", "Ditto-New Jeans"));
+        trackList.add(new Track("bts_title.png", "bts_select.png", "bts_main.png", "bts_cut.mp3", "bts.mp3", "Dynamite-BTS"));
 
         //=======================================================================================
         // 배경 화면 설정 - 더블 버퍼링 사용
@@ -309,7 +309,7 @@ public class DynamicBeat extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
                 // 난이도 쉬움 이벤트
-                gameStart(nowSelected, "easy");
+                gameStart(nowSelected, "Easy");
             }
         });
         add(easyButton);
@@ -338,7 +338,7 @@ public class DynamicBeat extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
                 // 난이도 어려움 이벤트
-                gameStart(nowSelected, "hard");
+                gameStart(nowSelected, "Hard");
             }
         });
         add(hardButton);
@@ -469,6 +469,8 @@ public class DynamicBeat extends JFrame {
         isGameScreen = true;            // 게임 화면임을 표시
 
         setFocusable(true);             // 키보드 포커스를 받을 수 있도록 설정
+
+        game = new Game(trackList.get(nowSelected).getTitleName(), difficulty, trackList.get(nowSelected).getGameMusic()); // 게임 객체 생성
     }
 
     /**
@@ -489,6 +491,7 @@ public class DynamicBeat extends JFrame {
         backButton.setVisible(false);    // 뒤로가기 버튼 보이게 함
         selectTrack(nowSelected);
         isGameScreen = false;
+        game.close();                     // 게임 종료
     }
 
     /**
