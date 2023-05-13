@@ -91,6 +91,14 @@ public class DynamicBeat extends JFrame {
      * DynamicBeat 클래스 생성자
      */
     public DynamicBeat() {
+
+        //=======================================================================================
+        // 곡 목록 설정
+        //=======================================================================================
+        trackList.add(new Track("ive_title.png", "ive_select.png", "ive_main.png", "ive_cut.mp3", "ive.mp3", "IAM - IVE"));
+        trackList.add(new Track("newjeans_title.png", "newjeans_select.png", "newjeans_main.png", "newjeans_cut.mp3", "newjeans.mp3", "Ditto-New Jeans"));
+        trackList.add(new Track("bts_title.png", "bts_select.png", "bts_main.png", "bts_cut.mp3", "bts.mp3", "Dynamite-BTS"));
+
         //=======================================================================================
         // 게임 창 설정 - 기본 프레임 설정
         //=======================================================================================
@@ -111,13 +119,6 @@ public class DynamicBeat extends JFrame {
         //=======================================================================================
         introMusic = new Music("introMusic.mp3", true); // 음악을 가져옴
         introMusic.start();
-
-        //=======================================================================================
-        // 곡 목록 설정
-        //=======================================================================================
-        trackList.add(new Track("ive_title.png", "ive_select.png", "ive_main.png", "ive_cut.mp3", "ive.mp3", "IAM - IVE"));
-        trackList.add(new Track("newjeans_title.png", "newjeans_select.png", "newjeans_main.png", "newjeans_cut.mp3", "newjeans.mp3", "Ditto-New Jeans"));
-        trackList.add(new Track("bts_title.png", "bts_select.png", "bts_main.png", "bts_cut.mp3", "bts.mp3", "Dynamite-BTS"));
 
         //=======================================================================================
         // 배경 화면 설정 - 더블 버퍼링 사용
@@ -404,6 +405,13 @@ public class DynamicBeat extends JFrame {
 
         // 프레임에 add에 의해 추가된 요소를 보여주는 역할
         paintComponents(g); // 버튼을 그려줌
+
+        try {
+            Thread.sleep(5); // 0.005초 동안 잠을 잠
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         this.repaint(); // paint() 메소드를 계속해서 반복해서 호출
     }
 
@@ -468,9 +476,10 @@ public class DynamicBeat extends JFrame {
         backButton.setVisible(true);    // 뒤로가기 버튼 보이게 함
         isGameScreen = true;            // 게임 화면임을 표시
 
-        setFocusable(true);             // 키보드 포커스를 받을 수 있도록 설정
 
         game = new Game(trackList.get(nowSelected).getTitleName(), difficulty, trackList.get(nowSelected).getGameMusic()); // 게임 객체 생성
+        game.start();                   // 게임 시작
+        setFocusable(true);             // 키보드 포커스를 받을 수 있도록 설정
     }
 
     /**
