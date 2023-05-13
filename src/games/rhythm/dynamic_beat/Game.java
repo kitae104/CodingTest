@@ -12,7 +12,6 @@ public class Game extends Thread {
     private Image gameInfoImage = new ImageIcon("images/new/gameInfo.png").getImage();
     private Image judgementLineImage = new ImageIcon("images/new/judgementLine.png").getImage();
     private Image noteRouteLineImage = new ImageIcon("images/new/noteRouteLine.png").getImage();
-
     private Image noteRouteSImage = new ImageIcon("images/new/noteRoute.png").getImage();
     private Image noteRouteDImage = new ImageIcon("images/new/noteRoute.png").getImage();
     private Image noteRouteFImage = new ImageIcon("images/new/noteRoute.png").getImage();
@@ -21,7 +20,24 @@ public class Game extends Thread {
     private Image noteRouteJImage = new ImageIcon("images/new/noteRoute.png").getImage();
     private Image noteRouteKImage = new ImageIcon("images/new/noteRoute.png").getImage();
     private Image noteRouteLImage = new ImageIcon("images/new/noteRoute.png").getImage();
+    private Image blueFlareImage;
+    private Image judgeImage;
 
+    //===============================
+    // 키 패드 이미지
+    //===============================
+    private Image keyPadSImage = new ImageIcon("images/new/keyPadBasic.png").getImage();
+    private Image keyPadDImage = new ImageIcon("images/new/keyPadBasic.png").getImage();
+    private Image keyPadFImage = new ImageIcon("images/new/keyPadBasic.png").getImage();
+    private Image keyPadSpace1Image = new ImageIcon("images/new/keyPadBasic.png").getImage();
+    private Image keyPadSpace2Image = new ImageIcon("images/new/keyPadBasic.png").getImage();
+    private Image keyPadJImage = new ImageIcon("images/new/keyPadBasic.png").getImage();
+    private Image keyPadKImage = new ImageIcon("images/new/keyPadBasic.png").getImage();
+    private Image keyPadLImage = new ImageIcon("images/new/keyPadBasic.png").getImage();
+
+    //===============================
+    // 게임 실행 관련 변수
+    //===============================
     private String titleName;       // 게임 제목
     private String difficulty;      // 게임 난이도
     private String musicTitle;      // 게임 음악 제목
@@ -40,8 +56,7 @@ public class Game extends Thread {
         this.difficulty = difficulty;
         this.musicTitle = musicTitle;
         gameMusic = new Music(this.musicTitle, false);
-        gameMusic.start();
-        dropNotes(titleName);
+
     }
 
     public void screenDraw(Graphics2D g) {
@@ -70,7 +85,16 @@ public class Game extends Thread {
         // 노트는 판단선 위로 올라오므로 판단선을 먼저 그려줘야 함
         for (int i = 0; i < noteList.size(); i++) {
             Note note = noteList.get(i);
-            note.screenDraw(g);
+            if(note.getY() > 620) {
+                judgeImage = new ImageIcon("images/new/judgeMiss.png").getImage();
+            }
+
+            if(!note.isProceeded()) {
+                noteList.remove(i);         // 노트가 판정선을 지나가지 않았다면 노트를 제거
+                i--;
+            } else {
+                note.screenDraw(g);         // 노트가 판정선을 지나갔다면 노트를 그려줌
+            }
         }
 
         // 노래 제목 출력
@@ -93,77 +117,109 @@ public class Game extends Thread {
         g.setFont(new Font("D2Coding", Font.BOLD, 30));
         g.drawString("000000", 565, 702);
 
-
+        g.drawImage(blueFlareImage, 320, 300, null);
+        g.drawImage(judgeImage, 530, 430, null);
+        g.drawImage(keyPadSImage, 228, 580, null);
+        g.drawImage(keyPadDImage, 332, 580, null);
+        g.drawImage(keyPadFImage, 436, 580, null);
+        g.drawImage(keyPadSpace1Image, 540, 580, null);
+        g.drawImage(keyPadSpace2Image, 640, 580, null);
+        g.drawImage(keyPadJImage, 744, 580, null);
+        g.drawImage(keyPadKImage, 848, 580, null);
+        g.drawImage(keyPadLImage, 952, 580, null);
     }
 
     @Override
     public void run() {
-
+        dropNotes();
     }
 
     public void pressS() {
+        judge("S");
         noteRouteSImage = new ImageIcon("images/new/noteRoutePressed.png").getImage();
+        keyPadSImage = new ImageIcon("images/new/keyPadPressed.png").getImage();
         new Music("drum/drumSmall1.mp3", false).start();
     }
 
     public void releaseS() {
         noteRouteSImage = new ImageIcon("images/new/noteRoute.png").getImage();
+        keyPadSImage = new ImageIcon("images/new/keyPadBasic.png").getImage();
     }
 
     public void pressD() {
+        judge("D");
         noteRouteDImage = new ImageIcon("images/new/noteRoutePressed.png").getImage();
+        keyPadDImage = new ImageIcon("images/new/keyPadPressed.png").getImage();
         new Music("drum/drumSmall1.mp3", false).start();
     }
 
     public void releaseD() {
         noteRouteDImage = new ImageIcon("images/new/noteRoute.png").getImage();
+        keyPadDImage = new ImageIcon("images/new/keyPadBasic.png").getImage();
     }
 
     public void pressF() {
+        judge("F");
         noteRouteFImage = new ImageIcon("images/new/noteRoutePressed.png").getImage();
+        keyPadFImage = new ImageIcon("images/new/keyPadPressed.png").getImage();
         new Music("drum/drumSmall1.mp3", false).start();
     }
 
     public void releaseF() {
         noteRouteFImage = new ImageIcon("images/new/noteRoute.png").getImage();
+        keyPadFImage = new ImageIcon("images/new/keyPadBasic.png").getImage();
     }
 
     public void pressSpace() {
+        judge("Space");
         noteRouteSpace1Image = new ImageIcon("images/new/noteRoutePressed.png").getImage();
         noteRouteSpace2Image = new ImageIcon("images/new/noteRoutePressed.png").getImage();
+        keyPadSpace1Image = new ImageIcon("images/new/keyPadPressed.png").getImage();
+        keyPadSpace2Image = new ImageIcon("images/new/keyPadPressed.png").getImage();
         new Music("drum/drumBig1.mp3", false).start();
     }
 
     public void releaseSpace() {
         noteRouteSpace1Image = new ImageIcon("images/new/noteRoute.png").getImage();
         noteRouteSpace2Image = new ImageIcon("images/new/noteRoute.png").getImage();
+        keyPadSpace1Image = new ImageIcon("images/new/keyPadBasic.png").getImage();
+        keyPadSpace2Image = new ImageIcon("images/new/keyPadBasic.png").getImage();
     }
 
     public void pressJ() {
+        judge("J");
         noteRouteJImage = new ImageIcon("images/new/noteRoutePressed.png").getImage();
+        keyPadJImage = new ImageIcon("images/new/keyPadPressed.png").getImage();
         new Music("drum/drumSmall1.mp3", false).start();
     }
 
     public void releaseJ() {
         noteRouteJImage = new ImageIcon("images/new/noteRoute.png").getImage();
+        keyPadJImage = new ImageIcon("images/new/keyPadBasic.png").getImage();
     }
 
     public void pressK() {
+        judge("K");
         noteRouteKImage = new ImageIcon("images/new/noteRoutePressed.png").getImage();
+        keyPadKImage = new ImageIcon("images/new/keyPadPressed.png").getImage();
         new Music("drum/drumSmall1.mp3", false).start();
     }
 
     public void releaseK() {
         noteRouteKImage = new ImageIcon("images/new/noteRoute.png").getImage();
+        keyPadKImage = new ImageIcon("images/new/keyPadBasic.png").getImage();
     }
 
     public void pressL() {
+        judge("L");
         noteRouteLImage = new ImageIcon("images/new/noteRoutePressed.png").getImage();
+        keyPadLImage = new ImageIcon("images/new/keyPadPressed.png").getImage();
         new Music("drum/drumSmall1.mp3", false).start();
     }
 
     public void releaseL() {
         noteRouteLImage = new ImageIcon("images/new/noteRoute.png").getImage();
+        keyPadLImage = new ImageIcon("images/new/keyPadBasic.png").getImage();
     }
 
     /**
@@ -174,9 +230,124 @@ public class Game extends Thread {
         this.interrupt();       // 스레드 종료
     }
 
-    public void dropNotes(String titleName) {
-        Note note = new Note(228, "short");
-        note.start();
-        noteList.add(note);
+    public void dropNotes() {
+        Beat[] beats = null;
+
+        if(titleName.equals("IAM - IVE") && difficulty.equals("Easy")){
+            int startTime = 4460 - Main.REACH_TIME * 1000;
+            int gap = 125;
+            beats = new Beat[]{
+                    new Beat(startTime,"S"),
+                    new Beat(startTime+gap*2, "S"),
+                    new Beat(startTime+gap*4, "D"),
+                    new Beat(startTime+gap*6, "F"),
+                    new Beat(startTime+gap*8, "Space"),
+                    new Beat(startTime+gap*10, "J"),
+                    new Beat(startTime+gap*12, "K"),
+                    new Beat(startTime+gap*14, "L"),
+                    new Beat(startTime+gap*18, "Space"),
+                    new Beat(startTime+gap*20, "Space"),
+                    new Beat(startTime+gap*22, "Space"),
+                    new Beat(startTime+gap*24, "K"),
+                    new Beat(startTime+gap*26, "J"),
+                    new Beat(startTime+gap*28, "K"),
+                    new Beat(startTime+gap*30, "J"),
+                    new Beat(startTime+gap*32, "K"),
+                    new Beat(startTime+gap*36, "S"),
+                    new Beat(startTime+gap*38, "D"),
+                    new Beat(startTime+gap*40, "S"),
+                    new Beat(startTime+gap*42, "D"),
+                    new Beat(startTime+gap*44, "S"),
+                    new Beat(startTime+gap*46, "D"),
+                    new Beat(startTime+gap*48, "Space"),
+                    new Beat(startTime+gap*49, "J"),
+                    new Beat(startTime+gap*50, "K"),
+                    new Beat(startTime+gap*52, "L"),
+                    new Beat(startTime+gap*52, "J"),
+                    new Beat(startTime+gap*52, "J")
+            };
+        } else if(titleName.equals("IAM - IVE") && difficulty.equals("Hard")){
+            int startTime = 1000;
+            beats = new Beat[]{
+                new Beat(startTime, "Space"),
+            };
+        } else if(titleName.equals("Ditto-New Jeans")&& difficulty.equals("Easy")){
+            int startTime = 1000;
+            beats = new Beat[]{
+                new Beat(startTime, "Space"),
+            };
+        } else if(titleName.equals("Ditto-New Jeans")&& difficulty.equals("Hard")){
+            int startTime = 1000;
+            beats = new Beat[]{
+                new Beat(startTime, "Space"),
+            };
+        } else if(titleName.equals("Dynamite-BTS")&& difficulty.equals("Easy")){
+            int startTime = 1000;
+            beats = new Beat[]{
+                    new Beat(startTime, "Space"),
+            };
+        } else if(titleName.equals("Dynamite-BTS")&& difficulty.equals("Hard")){
+            int startTime = 1000;
+            beats = new Beat[]{
+                    new Beat(startTime, "Space"),
+            };
+        }
+        // 게임 음악이 시작되기 전에 노트가 생성되는 것을 방지하기 위해 1초 정도 쉬어줌
+        gameMusic.start();
+
+        int i = 0;
+        while(i < beats.length && !isInterrupted()) {
+            boolean dropped = false;
+            if (beats[i].getTime() <= gameMusic.getTime()) {
+                Note note = new Note(beats[i].getNoteName());
+                note.start();
+                noteList.add(note);
+                i++;
+                dropped = true;
+            }
+            if(!dropped) {
+                try {
+                    Thread.sleep(5);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * 노트 판정을 실행하는 메소드
+     * @param input
+     */
+    public void judge(String input) {
+        for(int i = 0; i < noteList.size(); i++) {
+            Note note = noteList.get(i);
+            if(input.equals(note.getNoteType())) {      // 노트 판정이 성공했을 때
+                judgeEvent(note.judge());
+                break;
+            }
+        }
+    }
+
+    public void judgeEvent(String judge){
+        if(!judge.equals("None")) {
+            blueFlareImage = new ImageIcon("images/new/blueFlare.png").getImage();
+        }
+
+        if(judge.equals("Miss")) {
+            judgeImage = new ImageIcon("images/new/judgeMiss.png").getImage();
+        } else if(judge.equals("Late")) {
+            judgeImage = new ImageIcon("images/new/judgeLate.png").getImage();
+        } else if(judge.equals("Good")) {
+            judgeImage = new ImageIcon("images/new/judgeGood.png").getImage();
+        } else if(judge.equals("Great")) {
+            judgeImage = new ImageIcon("images/new/judgeGreat.png").getImage();
+        } else if(judge.equals("Perfect")) {
+            judgeImage = new ImageIcon("images/new/judgePerfect.png").getImage();
+        } else if(judge.equals("Early")) {
+            judgeImage = new ImageIcon("images/new/judgeEarly.png").getImage();
+        }
+        //judgeImageY = 580;
+        //new Music("drum/judge.mp3", false).start();
     }
 }
