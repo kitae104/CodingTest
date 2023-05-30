@@ -259,12 +259,16 @@ public class Game extends Thread {
                     new Beat(startTime+gap*42, "D"),
                     new Beat(startTime+gap*44, "S"),
                     new Beat(startTime+gap*46, "D"),
-                    new Beat(startTime+gap*48, "Space"),
-                    new Beat(startTime+gap*49, "J"),
-                    new Beat(startTime+gap*50, "K"),
-                    new Beat(startTime+gap*52, "L"),
-                    new Beat(startTime+gap*52, "J"),
-                    new Beat(startTime+gap*52, "J")
+                    new Beat(startTime+gap*48, "S"),
+                    new Beat(startTime+gap*50, "D"),
+                    new Beat(startTime+gap*52, "S"),
+                    new Beat(startTime+gap*54, "D"),
+                    new Beat(startTime+gap*56, "S"),
+                    new Beat(startTime+gap*58, "D"),
+                    new Beat(startTime+gap*60, "S"),
+                    new Beat(startTime+gap*62, "D"),
+                    new Beat(startTime+gap*64, "S"),
+
             };
         } else if(titleName.equals("IAM - IVE") && difficulty.equals("Hard")){
             int startTime = 1000;
@@ -350,4 +354,8 @@ public class Game extends Thread {
         //judgeImageY = 580;
         //new Music("drum/judge.mp3", false).start();
     }
+
+
+
+
 }
