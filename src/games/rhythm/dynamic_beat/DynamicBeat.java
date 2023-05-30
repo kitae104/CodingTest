@@ -71,8 +71,10 @@ public class DynamicBeat extends JFrame {
     //===============================
     private ImageIcon easyButtonEnteredImage = new ImageIcon("images/new/easyButtonEntered.png");
     private ImageIcon easyButtonBasicImage = new ImageIcon("images/new/easyButtonBasic.png");
+
     private ImageIcon hardButtonEnteredImage = new ImageIcon("images/new/hardButtonEntered.png");
     private ImageIcon hardButtonBasicImage = new ImageIcon("images/new/hardButtonBasic.png");
+
 
     private JButton easyButton = new JButton(easyButtonBasicImage);
     private JButton hardButton = new JButton(hardButtonBasicImage);
